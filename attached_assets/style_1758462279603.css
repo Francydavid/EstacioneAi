@@ -1,0 +1,120 @@
+/* Geral do site */
+*body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  /* Título */
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  
+  /* Formulário */
+  form {
+    max-width: 400px;
+    margin: 0 auto 30px auto;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  form input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  form button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Mapa */
+  #map {
+    height: 400px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+  }
+  
+  /* Área de informações e reserva */
+  #info-estacionamento {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  
+  #info-estacionamento h3 {
+    margin-top: 0;
+    color: #2c3e50;
+  }
+  
+  #info-estacionamento p {
+    margin: 10px 0;
+  }
+  
+  #vaga-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+  }
+  
+  #reservar-vaga-btn {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #27ae60;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #reservar-vaga-btn:hover:not(:disabled) {
+    background-color: #1e8449;
+  }
+  
+  #reservar-vaga-btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 600px) {
+    form, #info-estacionamento {
+      width: 90%;
+      padding: 10px;
+    }
+  
+    #map {
+      height: 300px;
+    }
+  }
+  

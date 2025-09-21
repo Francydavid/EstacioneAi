@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Estacionamento Shopping Luz</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    form { margin-bottom: 20px; }
+    #map { height: 400px; width: 100%; margin-bottom: 20px; }
+    #info-estacionamento { border: 1px solid #ccc; padding: 15px; margin-top: 10px; display: block; }
+    #vaga-select, #reservar-vaga-btn { margin-top: 10px; display: block; }
+  </style>
+</head>
+<body>
+
+  <h1>Estacionamento Shopping Luz</h1>
+
+  <!-- Formulário de contato -->
+  <form>
+    <input type="text" placeholder="Seu nome" required>
+    <input type="email" placeholder="Seu email" required>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <!-- Mapa Leaflet -->
+  <div id="map"></div>
+
+  <!-- Área de informações e reserva -->
+  <div id="info-estacionamento">
+    <h3 id="nome-estacionamento">Estacionamento Shopping Luz</h3>
+    <p id="detalhes-estacionamento">Escolha sua vaga disponível:</p>
+    <select id="vaga-select"></select>
+    <button id="reservar-vaga-btn">Reservar vaga</button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Formulário de contato
+    document.querySelector("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Mensagem enviada com sucesso! 🚀");
+    });
+
+    window.addEventListener("load", () => {
+      // Cria mapa Leaflet
+      const map = L.map('map').setView([-23.5450, -46.6380], 17); // Shopping Luz
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Estacionamento do shopping fechado com vagas numeradas
+      const estacionamentoShopping = {
+        nome: "Estacionamento Shopping Luz",
+        lat: -23.5450,
+        lng: -46.6380,
+        vagas: ["A1", "A2", "A3", "A4", "A5"],
+        descricao: "Estacionamento coberto, seguro e numerado."
+      };
+
+      // Elementos do DOM
+      const nomeElem = document.getElementById('nome-estacionamento');
+      const detalhesElem = document.getElementById('detalhes-estacionamento');
+      const vagaSelect = document.getElementById('vaga-select');
+      const reservarBtn = document.getElementById('reservar-vaga-btn');
+
+      // Marcador do estacionamento
+      const marker = L.marker([estacionamentoShopping.lat, estacionamentoShopping.lng]).addTo(map);
+      marker.bindPopup(`<strong>${estacionamentoShopping.nome}</strong><br/>Vagas disponíveis: ${estacionamentoShopping.vagas.length}`);
+
+      // Atualiza lista de vagas
+      function atualizarVagas() {
+        vagaSelect.innerHTML = "";
+        if (estacionamentoShopping.vagas.length === 0) {
+          detalhesElem.textContent = "Não há vagas disponíveis!";
+          reservarBtn.disabled = true;
+          marker.setPopupContent(`<strong>${estacionamentoShopping.nome}</strong><br/>Vagas disponíveis: 0`);
+          return;
+        }
+
+        detalhesElem.textContent = "Escolha sua vaga disponível:";
+        estacionamentoShopping.vagas.forEach(vaga => {
+          const option = document.createElement('option');
+          option.value = vaga;
+          option.textContent = vaga;
+          vagaSelect.appendChild(option);
+        });
+        reservarBtn.disabled = false;
+        marker.setPopupContent(`<strong>${estacionamentoShopping.nome}</strong><br/>Vagas disponíveis: ${estacionamentoShopping.vagas.length}`);
+      }
+
+      // Inicializa lista de vagas
+      atualizarVagas();
+
+      // Reservar vaga pelo select
+      reservarBtn.addEventListener('click', () => {
+        const vagaSelecionada = vagaSelect.value;
+        if (!vagaSelecionada) return;
+
+        estacionamentoShopping.vagas = estacionamentoShopping.vagas.filter(v => v !== vagaSelecionada);
+        alert(`Vaga ${vagaSelecionada} reservada com sucesso! Dirija-se à sua vaga.`);
+        atualizarVagas();
+      });
+
+      // Reservar vaga clicando no pop-up do mapa
+      marker.on('click', () => {
+        if (estacionamentoShopping.vagas.length === 0) {
+          alert("Não há vagas disponíveis!");
+          return;
+        }
+        const vaga = estacionamentoShopping.vagas[0]; // pega a primeira vaga disponível
+        estacionamentoShopping.vagas = estacionamentoShopping.vagas.filter(v => v !== vaga);
+        alert(`Vaga ${vaga} reservada com sucesso! Dirija-se à sua vaga.`);
+        atualizarVagas();
+      });
+    });
+  </script>
+
+</body>
+</html>
